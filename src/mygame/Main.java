@@ -38,7 +38,7 @@ public class Main extends SimpleApplication {
         ambient.setColor(ColorRGBA.Blue);
         
         PointLight p = new PointLight();
-        p.setColor(new ColorRGBA(0.8f, 0.4f, 0.8f, 1.0f));
+        p.setColor(new ColorRGBA(0.4f, 0.8f, 0.8f, 1.0f));
         
         BillboardSprite static1 = new BillboardSprite();
         BillboardSprite static2 = new BillboardSprite();
@@ -59,10 +59,10 @@ public class Main extends SimpleApplication {
         static5.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
         
         static1.setSprite("static1");
-        static2.setSprite(1);
-        static3.setSprite(2);
+        static2.setSprite("static1-2");
+        static3.setSprite("static3");
         static4.setSprite("static4");
-        static5.setSprite("static1");
+        static5.setSprite("static2");
         
         rootNode.addLight(ambient);
         rootNode.addLight(p);
