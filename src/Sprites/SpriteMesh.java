@@ -44,8 +44,14 @@ class SpriteMesh extends Mesh {
                 new Vector3f(spriteLeftBottom).multLocal(scale),
                 new Vector3f(spriteRightBottom).multLocal(scale)
         ));        
+              
+        setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(
+                new Vector2f(uvLeftTop.x, uvLeftTop.y * tex_y_scale), 
+                new Vector2f(uvRightTop.x * tex_x_scale, uvRightTop.y * tex_y_scale), 
+                uvLeftBottom, 
+                new Vector2f(uvRightBottom.x * tex_x_scale, uvRightBottom.y)
+        ));        
         
-        setBuffer(Type.TexCoord, 2, BufferUtils.createFloatBuffer(uvLeftTop, uvRightTop, uvLeftBottom, uvRightBottom));        
         setBuffer(Type.Normal, 3, BufferUtils.createFloatBuffer(normal, normal, normal, normal));
         setBuffer(Type.Index, 1, BufferUtils.createIntBuffer(index));
 		

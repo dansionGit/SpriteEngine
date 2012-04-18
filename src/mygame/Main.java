@@ -8,8 +8,11 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector2f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Box;
 
 /**
  * test
@@ -40,22 +43,26 @@ public class Main extends SimpleApplication {
         BillboardSprite static1 = new BillboardSprite();
         BillboardSprite static2 = new BillboardSprite();
         BillboardSprite static3 = new BillboardSprite();
-        BillboardSprite static4 = new BillboardSprite();       
+        BillboardSprite static4 = new BillboardSprite(2, 4);           
+        BillboardSprite static5 = new BillboardSprite(2, 4);           
         
         static1.setSpriteSheet(staticDebug);
         static2.setSpriteSheet(staticDebug);
         static3.setSpriteSheet(staticDebug);
-        static4.setSpriteSheet(staticDebug);
+        static4.setSpriteSheet(staticDebug);        
+        static5.setSpriteSheet(staticDebug);        
         
         static1.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
         static2.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
         static3.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
         static4.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
+        static5.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
         
         static1.setSprite("static1");
         static2.setSprite(1);
         static3.setSprite(2);
         static4.setSprite("static4");
+        static5.setSprite("static1");
         
         rootNode.addLight(ambient);
         rootNode.addLight(p);
@@ -64,12 +71,15 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(static2);
         rootNode.attachChild(static3);
         rootNode.attachChild(static4);
+        rootNode.attachChild(static5);        
         
         rootNode.addControl(spriteControl);
         
         static1.setLocalTranslation(-10, 0, -4);
         static2.setLocalTranslation(-5, 2, 4);
         static3.setLocalTranslation(5, -2, -4);
+        static4.setLocalTranslation(0, 0, -10);
+        static5.setLocalTranslation(0, 0, 10);
         
         static1.setPitchLock(true);
         rootNode.setQueueBucket(Bucket.Transparent);
