@@ -50,11 +50,11 @@ public class SpriteSheet {
                 
                 String [] coords = strArr[1].split(" ");                   
                 
-                float scale_x = Integer.parseInt(coords[2]) / width;
-                float scale_y = Integer.parseInt(coords[3]) / height;
+                float scale_x = Float.parseFloat(coords[2]) / width;
+                float scale_y = Float.parseFloat(coords[3]) / height;
                 
-                float x = 1.0000f * Integer.parseInt(coords[0]) / width;
-                float y = -1.0000f * Integer.parseInt(coords[1]) / height + scale_y;
+                float x = Float.parseFloat(coords[0]) / width;
+                float y = 1 - Float.parseFloat(coords[1]) / height - scale_y;
                 
                 sprite.uv_offset = new Vector2f(x, y);                
                 sprite.tex_scale = new Vector2f(scale_x, scale_y);
@@ -91,12 +91,12 @@ public class SpriteSheet {
         return texture;
     }       
     
-    public Vector2f getTextureUv(int index) {
+    public Vector2f getSpriteUv(int index) {
         return sprites.get(index).uv_offset;
     }
     
-     public Vector2f getTextureUv(String name) {
-        return getTextureUv(getTextureIndex(name));
+     public Vector2f getSpriteUv(String name) {
+        return getSpriteUv(getSpriteIndex(name));
     }
     
     public Vector2f getSpriteScale(int index) {
@@ -104,7 +104,7 @@ public class SpriteSheet {
     }
     
     public Vector2f getSpriteScale(String name) {
-        return getSpriteScale(getTextureIndex(name));
+        return getSpriteScale(getSpriteIndex(name));
     }
 
     /**
@@ -112,7 +112,7 @@ public class SpriteSheet {
      * @param name is the name of a sprite in the spritesheet
      * @return returns the index of the sprite in the spritesheet if it exists else returns -1
      */
-    public int getTextureIndex(String name) {
+    public int getSpriteIndex(String name) {
         for(int i = 0; i < sprites.size(); i++) {
             if(sprites.get(i).name.equals(name)) {
                 return i;
@@ -120,6 +120,28 @@ public class SpriteSheet {
         }
         
         return -1;
+    }
+    
+    /**
+     * 
+     * @param name name of a sprite
+     * @return returns the SpriteSheetItem for name if it exists else returns null
+     */
+    public SpriteSheetItem getSpriteItem(String name) {        
+        return getSpriteItem(getSpriteIndex(name));
+    }
+    
+    /**
+     * @param index index of a sprite
+     * @return returns the SpriteSheetItem for name if it exists else returns null
+     */
+    public SpriteSheetItem getSpriteItem(int index) {
+        if (index < 0) {
+            return null;
+        }
+        else {
+            return sprites.get(index);
+        }
     }
     
     /**

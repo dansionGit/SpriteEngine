@@ -11,11 +11,11 @@ import com.jme3.math.Vector2f;
  * @author Dansion
  */
 public class SpriteSheetItem {
-    String name;
+    public String name;
     
     //uv pos
-    Vector2f uv_offset;
+    public Vector2f uv_offset;
     
     //relative scaled size of sprite in relation to spritesheet
-    Vector2f tex_scale;
+    public Vector2f tex_scale;
 }
