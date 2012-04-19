@@ -58,7 +58,6 @@ public class SpriteSheet {
                     //and update sprite name
                     sprite.name = extra_info[0];
                 } else if( extra_info.length == 2){
-                    System.out.println(extra_info[1]);
                     try {
                         sprite.frame = Integer.parseInt(extra_info[1]);
                     }
@@ -69,7 +68,6 @@ public class SpriteSheet {
                     sprite.name = extra_info[0];
                 }
                 
-                System.out.println(sprite.name);
                 //calculate coordinates
                 String [] coords = strArr[1].split(" ");                   
                 
@@ -150,6 +148,16 @@ public class SpriteSheet {
         throw new java.lang.IndexOutOfBoundsException("Sprite with name : " + name + " does not exist in sheet " + mapFile);
     }
     
+    public int getSpriteIndex(String name, int frame, String orientation) {            
+        for(int i = 0; i < sprites.size(); i++) {            
+            //check if sprite with {name} or {name}-{frame 0} exists and returns index
+            if(sprites.get(i).name.equals(name) && sprites.get(i).frame == frame && sprites.get(i).rotoStance.equals(orientation)) {
+                return i;
+            }
+        }
+        
+        throw new java.lang.IndexOutOfBoundsException("Sprite with name : " + name + " does not exist in sheet " + mapFile);
+    }
     /**
      * 
      * @param name name of a sprite
@@ -163,6 +171,9 @@ public class SpriteSheet {
         return getSpriteItem(getSpriteIndex(name, frame));
     }    
     
+    public SpriteSheetItem getSpriteItem(String name, int frame, String orientation) {        
+        return getSpriteItem(getSpriteIndex(name, frame, orientation));
+    } 
     /**
      * @param index index of a sprite
      * @return returns the SpriteSheetItem for name if it exists else returns null

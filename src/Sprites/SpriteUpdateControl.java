@@ -48,6 +48,13 @@ public class SpriteUpdateControl extends UpdateControl {
                         as.update(tpf);
                     }
                 }
+                
+                //rotoSprite update 
+                if(sprite instanceof RotoSprite) {
+                    RotoSprite rs = (RotoSprite) sprite;
+                    
+                    rs.update();
+                }
             }                        
         }
     }        
