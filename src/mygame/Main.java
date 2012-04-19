@@ -1,18 +1,19 @@
 package mygame;
 
 import SpriteSheets.SpriteSheet;
+import Sprites.AnimatedSprite;
+import Sprites.AnimatedStaticSprite;
 import Sprites.BillboardSprite;
 import Sprites.SpriteUpdateControl;
+import Sprites.StaticSprite;
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.PointLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector2f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Box;
 
 /**
  * test
@@ -35,16 +36,16 @@ public class Main extends SimpleApplication {
         spriteControl = new SpriteUpdateControl(rootNode, cam);
         
         AmbientLight ambient = new AmbientLight();
-        ambient.setColor(ColorRGBA.Blue);
+        ambient.setColor(ColorRGBA.White);
         
         PointLight p = new PointLight();
-        p.setColor(new ColorRGBA(0.4f, 0.8f, 0.8f, 1.0f));
+        p.setColor(new ColorRGBA(0.9f, 0.8f, 0.8f, 1.0f));
         
         BillboardSprite static1 = new BillboardSprite();
-        BillboardSprite static2 = new BillboardSprite();
-        BillboardSprite static3 = new BillboardSprite();
+        StaticSprite static2 = new StaticSprite();
+        AnimatedStaticSprite static3 = new AnimatedStaticSprite(3);
         BillboardSprite static4 = new BillboardSprite(2, 4);           
-        BillboardSprite static5 = new BillboardSprite(2, 4);           
+        AnimatedSprite static5 = new AnimatedSprite(2, 4, 3);           
         
         static1.setSpriteSheet(staticDebug);
         static2.setSpriteSheet(staticDebug);
@@ -59,10 +60,19 @@ public class Main extends SimpleApplication {
         static5.setMaterial(new Material(assetManager, "MatDefs/UVOffsetLighting.j3md"));
         
         static1.setSprite("static1");
-        static2.setSprite("static1-2");
+        static2.setSprite("static1");
         static3.setSprite("static3");
         static4.setSprite("static4");
         static5.setSprite("static2");
+        
+        static2.getMaterial().getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
+        
+        static3.setPlaying(true);
+        static3.setFps(3);
+        
+        static5.setPlaying(true);
+        static5.setLoop(true);
+        static5.setFps(1);
         
         rootNode.addLight(ambient);
         rootNode.addLight(p);
@@ -82,6 +92,7 @@ public class Main extends SimpleApplication {
         static5.setLocalTranslation(0, 0, 10);
         
         static1.setPitchLock(true);
+        
         rootNode.setQueueBucket(Bucket.Transparent);
     }
 

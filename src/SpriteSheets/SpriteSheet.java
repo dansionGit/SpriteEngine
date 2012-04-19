@@ -25,10 +25,11 @@ public class SpriteSheet {
     private int length, width, height;
     private Texture texture;
     private boolean mipmap_status = false;
+    private String mapFile;
 
     public SpriteSheet(AssetManager assetManager, String texture_file, String map_file) {
         BufferedReader in = null;
-
+        mapFile = map_file;
         //load texture
         texture = assetManager.loadTexture(texture_file);
         
@@ -48,6 +49,28 @@ public class SpriteSheet {
                 String[] strArr = str.split(" = ");
                 sprite.name = strArr[0].trim();
                 
+                //check for animation / roto-information 
+                String[] extra_info = sprite.name.split("-");
+                if(extra_info.length == 3) {
+                    sprite.rotoStance = extra_info[2];
+                    sprite.frame = Integer.parseInt(extra_info[1]);
+                    
+                    //and update sprite name
+                    sprite.name = extra_info[0];
+                } else if( extra_info.length == 2){
+                    System.out.println(extra_info[1]);
+                    try {
+                        sprite.frame = Integer.parseInt(extra_info[1]);
+                    }
+                    catch (NumberFormatException ex) {
+                        sprite.rotoStance = extra_info[1];
+                    }
+                    
+                    sprite.name = extra_info[0];
+                }
+                
+                System.out.println(sprite.name);
+                //calculate coordinates
                 String [] coords = strArr[1].split(" ");                   
                 
                 float scale_x = Float.parseFloat(coords[2]) / width;
@@ -95,7 +118,7 @@ public class SpriteSheet {
         return sprites.get(index).uv_offset;
     }
     
-     public Vector2f getSpriteUv(String name) {
+    public Vector2f getSpriteUv(String name) {
         return getSpriteUv(getSpriteIndex(name));
     }
     
@@ -112,14 +135,19 @@ public class SpriteSheet {
      * @param name is the name of a sprite in the spritesheet
      * @return returns the index of the sprite in the spritesheet if it exists else returns -1
      */
-    public int getSpriteIndex(String name) {
-        for(int i = 0; i < sprites.size(); i++) {
-            if(sprites.get(i).name.equals(name)) {
+    public int getSpriteIndex(String name) {    
+        return getSpriteIndex(name, 0);
+    }
+    
+    public int getSpriteIndex(String name, int frame) {            
+        for(int i = 0; i < sprites.size(); i++) {            
+            //check if sprite with {name} or {name}-{frame 0} exists and returns index
+            if(sprites.get(i).name.equals(name) && sprites.get(i).frame == frame) {
                 return i;
             }
         }
         
-        return -1;
+        throw new java.lang.IndexOutOfBoundsException("Sprite with name : " + name + " does not exist in sheet " + mapFile);
     }
     
     /**
@@ -131,15 +159,19 @@ public class SpriteSheet {
         return getSpriteItem(getSpriteIndex(name));
     }
     
+    public SpriteSheetItem getSpriteItem(String name, int frame) {        
+        return getSpriteItem(getSpriteIndex(name, frame));
+    }    
+    
     /**
      * @param index index of a sprite
      * @return returns the SpriteSheetItem for name if it exists else returns null
      */
     public SpriteSheetItem getSpriteItem(int index) {
-        if (index < 0) {
-            return null;
+        if (index < 0 || index >= sprites.size()) {
+            throw new java.lang.IndexOutOfBoundsException("Sprite with index : " + index + " does not exist in sheet " + mapFile);
         }
-        else {
+        else {            
             return sprites.get(index);
         }
     }

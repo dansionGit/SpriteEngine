@@ -38,6 +38,10 @@ public class Sprite extends Geometry {
         setMesh(sprite);
     }
     
+    public String getSpriteName() {
+        return item.name;
+    }
+    
     public void setSpriteSheet(SpriteSheet sheet) {
         this.sheet = sheet;
         
@@ -62,12 +66,15 @@ public class Sprite extends Geometry {
     }
     
     public void setSprite(int index) {        
-        item = sheet.getSpriteItem(index);        
-        sprite = new SpriteMesh(size.x, size.y, item.tex_scale.x , item.tex_scale.y);
-                
-        setMesh(sprite);        
-        getMaterial().setVector2("TranslateAmount", item.uv_offset);
-    }
+        item = sheet.getSpriteItem(index);
+        
+        if(item != null) {
+            sprite = new SpriteMesh(size.x, size.y, item.tex_scale.x , item.tex_scale.y);
+
+            setMesh(sprite);        
+            getMaterial().setVector2("TranslateAmount", item.uv_offset);
+        }
+    }        
     
     public void setUVOffset(Vector2f offset) {
         getMaterial().setVector2("TranslateAmount", offset);
@@ -79,5 +86,9 @@ public class Sprite extends Geometry {
     
     public boolean isPitchLocked() {
         return lockPitch;
+    }
+    
+    public SpriteSheet getSheet() {
+        return sheet;
     }
 }

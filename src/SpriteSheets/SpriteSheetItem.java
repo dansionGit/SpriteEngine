@@ -18,4 +18,8 @@ public class SpriteSheetItem {
     
     //relative scaled size of sprite in relation to spritesheet
     public Vector2f tex_scale;
+    
+    public int frame = 0;
+    
+    public String rotoStance;
 }

@@ -8,7 +8,7 @@ package Sprites;
  *
  * @author Dansion
  */
-public class BillboardSprite extends AnimatedSprite {
+public class BillboardSprite extends Sprite {
     public BillboardSprite() {
         super();
     }

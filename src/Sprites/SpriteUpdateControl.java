@@ -31,11 +31,22 @@ public class SpriteUpdateControl extends UpdateControl {
             List <Sprite> sprites = updateNode.descendantMatches(Sprite.class);
             
             for(Sprite sprite : sprites) {
-                //first update sprite rotation :                
-                sprite.lookAt(cam.getLocation(), Vector3f.UNIT_Y);
+                //first update sprite rotation if it isn't static:                
+                if(!(sprite instanceof StaticSprite) && !(sprite instanceof AnimatedStaticSprite)) {
+                    sprite.lookAt(cam.getLocation(), Vector3f.UNIT_Y);
+
+                    if(sprite.isPitchLocked()) {
+                        sprite.rotateUpTo(Vector3f.UNIT_Y);
+                    }
+                }
                 
-                if(sprite.isPitchLocked()) {
-                    sprite.rotateUpTo(Vector3f.UNIT_Y);
+                //next update animation frame
+                if(sprite instanceof AnimatedSprite) {
+                    AnimatedSprite as = (AnimatedSprite) sprite;
+                    
+                    if(as.isPlaying()) {
+                        as.update(tpf);
+                    }
                 }
             }                        
         }
